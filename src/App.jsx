@@ -1,22 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import Counter from './components/Counter'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import './App.css' 
+import CardUser from './components/CardUser'
+
 
 function App() {
+
+  const [user, setUser] = useState();
   
-  const [isTrue, setisTrue] = useState(false);
-  const handleBoolean = () => setisTrue(!isTrue);
+
+  useEffect(() => {
+    const URL = 'https://randomuser.me/api/'
+    axios.get(URL)
+      .then(res => setUser(res.data.results[0]))
+      .catch(err => console.log(err))
+  }, [])
+
+  console.log(user);
 
   return (
     <div className="App">
-      <img src="./src/assets/perrito1.jpg" alt="" />
-      <button onClick={handleBoolean}>Visualizar Contenido</button>
-      {
-        isTrue ? <Counter /> : <h2>Esta Oculto</h2>
-      }
+      <div className="tdo">
+        <CardUser user={user}/>
+        
+        </div>
+      
     </div>
   )
 }
 
-export default App 
+export default App
